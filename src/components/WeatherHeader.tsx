@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-
 import {Details} from './Details';
 
 export const WeatherHeader: React.FunctionComponent = () => {
@@ -9,10 +8,10 @@ export const WeatherHeader: React.FunctionComponent = () => {
       <View style={styles.info}>
         <View style={styles.weatherInfo}>
           <Text>17</Text>
-          <Text>Cloud</Text>
+          <Text>Image</Text>
         </View>
         <Text>Cloudy</Text>
-        <Text>feels like 1</Text>
+        <Text>Feels like 15</Text>
       </View>
       <Details />
     </View>

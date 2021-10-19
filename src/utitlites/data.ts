@@ -1,75 +1,65 @@
 export const DATA: any = [
   {
-    img: 'cloud',
+    img: 'image',
+    temp: 10,
+    time: '10:00',
+  },
+  {
+    img: 'image',
+    temp: 10,
+    time: '11:00',
+  },
+  {
+    img: 'image',
     temp: 10,
     time: '12:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '13:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '14:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '15:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '16:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '17:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '18:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
+    time: '19:00',
   },
   {
-    img: 'cloud',
+    img: 'image',
     temp: 10,
-    time: '12:00',
-  },
-  {
-    img: 'cloud',
-    temp: 10,
-    time: '12:00',
-  },
-  {
-    img: 'cloud',
-    temp: 10,
-    time: '12:00',
-  },
-  {
-    img: 'cloud',
-    temp: 10,
-    time: '12:00',
-  },
-  {
-    img: 'cloud',
-    temp: 10,
-    time: '12:00',
+    time: '20:00',
   },
 ];
 
 export const DETAILS = [
-  {img: 'img', data: 'data'},
-  {img: 'img', data: 'data'},
-  {img: 'img', data: 'data'},
+  {img: 'img', data: 'No data'},
+  {img: 'img', data: 'No data'},
+  {img: 'img', data: 'No data'},
 ];
 
 export const WEEK_DAYS = [
@@ -81,8 +71,6 @@ export const WEEK_DAYS = [
   {name: 'Saturday', id: 5},
   {name: 'Sunday', id: 6},
 ];
-
-export const id = [0, 1, 2, 3, 4];
 
 export const MONTH_NAMES = [
   'January',
@@ -98,19 +86,3 @@ export const MONTH_NAMES = [
   'November',
   'December',
 ];
-
-export const TEMP: Array<{img: string; data: number}> = [
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-];
-
-export const WIND: Array<{img: string; data: number}> = [
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-  {img: 'img', data: 14},
-];
-
-export const TIME = ['Morning', 'Day', 'Evening', 'Night'];

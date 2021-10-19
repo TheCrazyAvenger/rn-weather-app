@@ -1,9 +1,13 @@
 import React from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {DATA, DETAILS} from '../utitlites/data';
 
 export const Details: React.FunctionComponent = () => {
-  const weatherItem = ({item}: {item: any}) => {
+  const weatherItem = ({
+    item,
+  }: {
+    item: {img: string; time: string; temp: number};
+  }) => {
     return (
       <View style={styles.weatherItem}>
         <Text>{item.time}</Text>
@@ -13,7 +17,7 @@ export const Details: React.FunctionComponent = () => {
     );
   };
 
-  const detailsItem = ({item}: {item: any}) => {
+  const detailsItem = ({item}: {item: {img: string; data: string}}) => {
     return (
       <View style={styles.detailsItem}>
         <Text style={{marginRight: 5}}>{item.img}</Text>
@@ -26,7 +30,7 @@ export const Details: React.FunctionComponent = () => {
     <FlatList
       ListHeaderComponent={
         <View style={styles.details}>
-          <FlatList data={DETAILS} inverted={true} renderItem={detailsItem} />
+          <FlatList data={DETAILS} renderItem={detailsItem} />
         </View>
       }
       data={DATA}

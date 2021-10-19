@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
   Image,
   Linking,
   SafeAreaView,
@@ -27,10 +26,11 @@ export const WeatherInfo: React.FunctionComponent = () => {
     Linking.openURL('https://openweathermap.org/');
   };
 
-  const weekItem = (item: any, i: number) => {
+  const weekItem = (item: {name: string; id: number}, i: number) => {
     if (i === 5 || i === 6) return null;
 
     const weekendStyle = item.id === 5 || item.id === 6 ? styles.weekend : null;
+
     return (
       <TouchableOpacity
         key={i}
@@ -38,7 +38,7 @@ export const WeatherInfo: React.FunctionComponent = () => {
         activeOpacity={0.7}
         onPress={() => console.log('Pressed')}>
         <AppText style={styles.dateText}>
-          {new Date().getDate() + i} {month}
+          {`${new Date().getDate() + i} ${month}`}`
         </AppText>
         <AppText style={{...styles.dayText, ...weekendStyle}}>
           {item.name}
@@ -52,13 +52,15 @@ export const WeatherInfo: React.FunctionComponent = () => {
       <View style={styles.block}>
         <AppTextBold>Five day forecast</AppTextBold>
       </View>
-
       {week.map((item, i) => weekItem(item, i))}
-
       <View style={{...styles.block, marginTop: 5}}>
         <AppTextBold>View on map</AppTextBold>
       </View>
-      <View style={{...styles.block, padding: 100}}></View>
+      <View style={{...styles.block, padding: 100}}>
+        <AppTextBold style={{textAlign: 'center'}}>
+          There will be map
+        </AppTextBold>
+      </View>
       <View style={styles.block}>
         <AppTextBold>Used Api</AppTextBold>
       </View>
