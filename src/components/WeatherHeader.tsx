@@ -21,10 +21,9 @@ export const WeatherHeader: React.FunctionComponent = () => {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     backgroundColor: 'lightblue',
-    width: '100%',
-    paddingVertical: 20,
+    paddingVertical: 50,
+    marginBottom: 5,
   },
   info: {
     alignItems: 'center',
