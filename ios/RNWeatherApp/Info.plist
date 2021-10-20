@@ -56,5 +56,7 @@
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs to get your location...</string>
 </dict>
 </plist>

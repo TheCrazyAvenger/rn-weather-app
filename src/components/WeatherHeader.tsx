@@ -1,27 +1,57 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
+import {THEME} from '../theme';
+import {AppText} from '../ui/AppText';
+import {AppTextBold} from '../ui/AppTextBold';
 import {Details} from './Details';
 
-export const WeatherHeader: React.FunctionComponent = () => {
+type WeatherHeaderTypes = {
+  list: Array<any>;
+};
+
+export const WeatherHeader: React.FunctionComponent<WeatherHeaderTypes> = ({
+  list,
+}) => {
+  const now = list[0];
+  const {temp, feels_like, humidity, pressure} = now.main;
+  const weather = now.weather[0];
+  const {icon, description} = weather;
+  const wind = now.wind.speed;
+
+  const details = [
+    {img: 'wind', data: wind, type: 'm/s'},
+    {img: 'crosshair', data: pressure, type: 'hPa'},
+    {img: 'droplet', data: humidity, type: '%'},
+  ];
+
   return (
     <View style={styles.root}>
       <View style={styles.info}>
         <View style={styles.weatherInfo}>
-          <Text>17</Text>
-          <Text>Image</Text>
+          <AppTextBold style={{...styles.text, fontSize: 35}}>
+            {Math.round(temp)}°
+          </AppTextBold>
+          <Image
+            style={styles.icon}
+            source={{
+              uri: `http://openweathermap.org/img/wn/${icon}.png`,
+            }}
+          />
         </View>
-        <Text>Cloudy</Text>
-        <Text>Feels like 15</Text>
+        <AppTextBold style={styles.text}>{description}</AppTextBold>
+        <AppText style={styles.text}>
+          Feels like: {Math.round(feels_like)}°
+        </AppText>
       </View>
-      <Details />
+      <Details list={list} details={details} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: 'lightblue',
-    paddingVertical: 50,
+    backgroundColor: '#00ccff',
+    paddingVertical: 30,
     marginBottom: 5,
   },
   info: {
@@ -30,7 +60,16 @@ const styles = StyleSheet.create({
   },
   weatherInfo: {
     flexDirection: 'row',
-    width: '15%',
+    width: '25%',
+    alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  text: {
+    color: THEME.COLOR_WHITE,
+    fontSize: 15,
+  },
+  icon: {
+    width: 40,
+    height: 55,
   },
 });
