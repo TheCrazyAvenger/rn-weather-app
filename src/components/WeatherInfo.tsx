@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import MapView from 'react-native-maps';
+import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppTextBold} from '../ui/AppTextBold';
 import {WEEK_DAYS} from '../utitlites/data';
@@ -16,9 +18,30 @@ import {WeekItem} from './WeekItem';
 export const WeatherInfo: React.FunctionComponent = () => {
   const [week, setWeek] = useState(WEEK_DAYS);
 
+  const latitude = useTypedSelector(state => state.weather.latitude);
+  const longitude = useTypedSelector(state => state.weather.longitude);
+
   useEffect(() => {
     setWeek(updateWeek());
   }, []);
+
+  const openMap = () => {
+    Linking.openURL(
+      `https://openweathermap.org/weathermap?basemap=map&cities=false&layer=clouds&lat=${latitude}&lon=${longitude}&zoom=10`,
+    );
+  };
+
+  const xtile = Math.floor(((longitude + 180) / 360) * Math.pow(2, 10));
+  const ytile = Math.floor(
+    ((1 -
+      Math.log(
+        Math.tan((latitude * Math.PI) / 180) +
+          1 / Math.cos((latitude * Math.PI) / 180),
+      ) /
+        Math.PI) /
+      2) *
+      Math.pow(2, 10),
+  );
 
   const openSite = () => {
     Linking.openURL('https://openweathermap.org/');
@@ -35,10 +58,29 @@ export const WeatherInfo: React.FunctionComponent = () => {
       <View style={{...styles.block, marginTop: 5}}>
         <AppTextBold>View on map</AppTextBold>
       </View>
-      <View style={{...styles.block, padding: 100}}>
-        <AppTextBold style={{textAlign: 'center'}}>
-          There will be map
-        </AppTextBold>
+      <View style={{...styles.block, padding: 0, position: 'relative'}}>
+        <MapView
+          onPress={openMap}
+          scrollEnabled={false}
+          zoomEnabled={false}
+          style={{width: '100%', height: 200}}
+          initialRegion={{
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: 0.7,
+            longitudeDelta: 0.7,
+          }}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
+        />
+        <Image
+          style={{position: 'absolute', width: '100%', height: 200}}
+          source={{
+            uri: `https://tile.openweathermap.org/map/clouds_new/10/${Math.round(
+              xtile,
+            )}/${Math.round(ytile)}.png?appid=7fb17b0400480080f824b5827af64eca`,
+          }}
+        />
       </View>
       <View style={styles.block}>
         <AppTextBold>Used Api</AppTextBold>

@@ -7,25 +7,25 @@ import {
   TOGGLE_LOADING,
 } from './actionTypes';
 
-export const fetchWeather = (lat?: number, lon?: number) => {
+export const fetchWeather = (lat: number = 51.5073, lon: number = -0.1277) => {
   return async (dispatch: Dispatch) => {
     dispatch(clearError());
     try {
       const responce = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=51.5073&lon=-0.1277&units=metric&appid=7fb17b0400480080f824b5827af64eca`,
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=7fb17b0400480080f824b5827af64eca`,
       );
 
-      const data: any = responce.data;
-      const {list} = data;
+      const data: any = await responce.data;
 
-      const weekWeather = getWeather(list, 12);
-      const nightWeather = getWeather(list, 3);
+      const {lat: latitude, lon: longitude} = data.city.coord;
+
+      console.log(new Date());
 
       dispatch({
         type: FETCH_WEATHER,
         data,
-        weekWeather,
-        nightWeather,
+        latitude,
+        longitude,
       });
     } catch (e) {
       dispatch(showError('Something went wrong...'));
@@ -46,17 +46,4 @@ const showError = (error: string) => {
 
 const clearError = () => {
   return {type: CLEAR_ERROR};
-};
-
-const getWeather = (list: Array<any>, time: number) => {
-  const newList: Array<object> = [];
-  const days = list;
-
-  days.map(item => {
-    const date = new Date(item['dt_txt']);
-    const hour = date.getHours();
-    if (hour === time) newList.push(item);
-  });
-
-  return newList;
 };

@@ -1,17 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
+import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppText} from '../ui/AppText';
 import {AppTextBold} from '../ui/AppTextBold';
 import {Details} from './Details';
 
-type WeatherHeaderTypes = {
-  list: Array<any>;
-};
+export const WeatherHeader: React.FunctionComponent = () => {
+  const data = useTypedSelector(state => state.weather.data);
+  const {list} = data;
 
-export const WeatherHeader: React.FunctionComponent<WeatherHeaderTypes> = ({
-  list,
-}) => {
   const now = list[0];
   const {temp, feels_like, humidity, pressure} = now.main;
   const weather = now.weather[0];

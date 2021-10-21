@@ -4,7 +4,7 @@ import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppText} from '../ui/AppText';
 import {AppTextBold} from '../ui/AppTextBold';
-import {getMonth} from '../utitlites/utilities';
+import {getMonth, getWeather} from '../utitlites/utilities';
 
 type WeekItemType = {
   item: {name: string; id: number};
@@ -22,12 +22,13 @@ export const WeekItem: React.FunctionComponent<WeekItemType> = ({item, i}) => {
 
   const weekendStyle = item.id === 5 || item.id === 6 ? styles.weekend : null;
 
-  const weekWeather = useTypedSelector(state => state.weather.weekWeather);
-  const nightWeather = useTypedSelector(state => state.weather.nightWeather);
+  const data = useTypedSelector(state => state.weather.data.list);
 
-  const {temp: tempDay} = weekWeather![i].main;
-  const {temp: tempNight} = nightWeather![i].main;
-  const icon = weekWeather![i].weather[0].icon;
+  const weekWeather = getWeather(data, 12, i);
+  const nightWeather = getWeather(data, 3, i);
+  const {temp: tempDay} = weekWeather.main;
+  const {temp: tempNight} = nightWeather.main;
+  const icon = weekWeather.weather[0].icon;
 
   return (
     <TouchableOpacity

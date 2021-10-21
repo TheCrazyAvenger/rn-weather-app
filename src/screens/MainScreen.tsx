@@ -6,16 +6,14 @@ import {
   ActivityIndicator,
   Button,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {Header} from '../components/Header';
 import {WeatherHeader} from '../components/WeatherHeader';
 import {WeatherInfo} from '../components/WeatherInfo';
 import {fetchWeather, toggleLoading} from '../store/actions/weather';
 import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
-import {AppText} from '../ui/AppText';
 import {AppTextBold} from '../ui/AppTextBold';
+import Geolocation from '@react-native-community/geolocation';
 
 export const MainScreen: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -25,10 +23,21 @@ export const MainScreen: React.FunctionComponent = () => {
   const error = useTypedSelector(state => state.weather.error);
 
   useEffect(() => {
-    dispatch(fetchWeather());
+    Geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        dispatch(fetchWeather(lat, lon));
+      },
+      error => {
+        dispatch(fetchWeather());
+        console.log(error.code, error.message);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
   }, []);
 
-  if (loading) {
+  if (loading && !data) {
     return (
       <View style={styles.center}>
         <ActivityIndicator />
@@ -51,12 +60,10 @@ export const MainScreen: React.FunctionComponent = () => {
     );
   }
 
-  const {list} = data;
-
   return (
     <View style={styles.root}>
       <ScrollView>
-        <WeatherHeader list={list} />
+        <WeatherHeader />
         <WeatherInfo />
       </ScrollView>
     </View>

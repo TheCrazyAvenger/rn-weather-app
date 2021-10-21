@@ -9,16 +9,16 @@ export interface IWeatherState {
   data: any;
   loader: boolean;
   error: string | null;
-  weekWeather: Array<any> | null;
-  nightWeather: Array<any> | null;
+  latitude: number;
+  longitude: number;
 }
 
 interface FetchWeather {
   type: typeof FETCH_WEATHER;
   data: any;
   loader: boolean;
-  weekWeather: Array<any>;
-  nightWeather: Array<any>;
+  latitude: number;
+  longitude: number;
 }
 
 interface ToggleLoading {

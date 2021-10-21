@@ -14,7 +14,6 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
   list,
   details,
 }) => {
-  console.log(details);
   const weatherItem = ({item}: {item: {[key: string]: any}}) => {
     const time = new Date(item['dt_txt']).getHours();
     const icon = item.weather[0].icon;
@@ -34,13 +33,10 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
 
   const detailsItem = ({
     item,
-    index,
   }: {
     item: {img: string; data: number; type: string};
     index: number;
   }) => {
-    console.log(index);
-
     return (
       <View style={styles.detailsItem}>
         <Icon
