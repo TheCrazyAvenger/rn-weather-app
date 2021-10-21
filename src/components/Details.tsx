@@ -35,7 +35,6 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
     item,
   }: {
     item: {img: string; data: number; type: string};
-    index: number;
   }) => {
     return (
       <View style={styles.detailsItem}>
@@ -57,10 +56,7 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
     <FlatList
       ListHeaderComponent={
         <View style={styles.details}>
-          <FlatList
-            data={details}
-            renderItem={({item, index}) => detailsItem({item, index})}
-          />
+          <FlatList data={details} renderItem={detailsItem} />
         </View>
       }
       data={list}

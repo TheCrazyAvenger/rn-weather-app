@@ -15,8 +15,20 @@ import {THEME} from '../theme';
 import {AppTextBold} from '../ui/AppTextBold';
 import Geolocation from '@react-native-community/geolocation';
 
-export const MainScreen: React.FunctionComponent = () => {
+type MainScreenType = {
+  navigation: any;
+};
+
+export const MainScreen: React.FunctionComponent<MainScreenType> = ({
+  navigation,
+}) => {
   const dispatch = useDispatch();
+
+  const onOpenDay = (dayData: Array<any>) => {
+    navigation.navigate('Day', {
+      dayData,
+    });
+  };
 
   const data = useTypedSelector(state => state.weather.data);
   const loading = useTypedSelector(state => state.weather.loader);
@@ -64,7 +76,7 @@ export const MainScreen: React.FunctionComponent = () => {
     <View style={styles.root}>
       <ScrollView>
         <WeatherHeader />
-        <WeatherInfo />
+        <WeatherInfo onOpenDay={onOpenDay} />
       </ScrollView>
     </View>
   );

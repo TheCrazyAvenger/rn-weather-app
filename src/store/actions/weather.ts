@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Dispatch} from 'redux';
+import {getWeather} from '../../utitlites/utilities';
 import {
   CLEAR_ERROR,
   FETCH_WEATHER,
@@ -17,15 +18,18 @@ export const fetchWeather = (lat: number = 51.5073, lon: number = -0.1277) => {
 
       const data: any = await responce.data;
 
-      const {lat: latitude, lon: longitude} = data.city.coord;
+      const weekWeather = getWeather(data.list, 15, 'time');
+      const nightWeather = getWeather(data.list, 3, 'time');
 
-      console.log(new Date());
+      const {lat: latitude, lon: longitude} = data.city.coord;
 
       dispatch({
         type: FETCH_WEATHER,
         data,
         latitude,
         longitude,
+        weekWeather,
+        nightWeather,
       });
     } catch (e) {
       dispatch(showError('Something went wrong...'));

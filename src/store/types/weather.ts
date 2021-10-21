@@ -11,6 +11,8 @@ export interface IWeatherState {
   error: string | null;
   latitude: number;
   longitude: number;
+  weekWeather: Array<any> | null;
+  nightWeather: Array<any> | null;
 }
 
 interface FetchWeather {
@@ -19,6 +21,8 @@ interface FetchWeather {
   loader: boolean;
   latitude: number;
   longitude: number;
+  weekWeather: Array<any>;
+  nightWeather: Array<any>;
 }
 
 interface ToggleLoading {

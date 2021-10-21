@@ -9,33 +9,37 @@ import {getMonth, getWeather} from '../utitlites/utilities';
 type WeekItemType = {
   item: {name: string; id: number};
   i: number;
+  onOpenDay: (dayData: Array<any>) => void;
 };
 
-export const WeekItem: React.FunctionComponent<WeekItemType> = ({item, i}) => {
-  const [month, setMonth] = useState('No data');
+export const WeekItem: React.FunctionComponent<WeekItemType> = ({
+  item,
+  i,
+  onOpenDay,
+}) => {
+  if (i === 5 || i === 6) return null;
 
+  const [month, setMonth] = useState('No data');
   useEffect(() => {
     setMonth(getMonth());
   }, []);
 
-  if (i === 5 || i === 6) return null;
+  const data = useTypedSelector(state => state.weather.data.list);
+  const day = useTypedSelector(state => state.weather.weekWeather);
+  const night = useTypedSelector(state => state.weather.nightWeather);
+  const dayData = getWeather(data, new Date().getDate() + i);
 
   const weekendStyle = item.id === 5 || item.id === 6 ? styles.weekend : null;
 
-  const data = useTypedSelector(state => state.weather.data.list);
-
-  const weekWeather = getWeather(data, 12, i);
-  const nightWeather = getWeather(data, 3, i);
-  const {temp: tempDay} = weekWeather.main;
-  const {temp: tempNight} = nightWeather.main;
-  const icon = weekWeather.weather[0].icon;
+  const {temp: tempDay} = day![i].main;
+  const {temp: tempNight} = night![i].main;
+  const icon = day![i].weather[0].icon;
 
   return (
     <TouchableOpacity
-      key={i}
       style={styles.weekItem}
       activeOpacity={0.7}
-      onPress={() => console.log('Pressed')}>
+      onPress={() => onOpenDay(dayData)}>
       <View>
         <AppText style={styles.dateText}>
           {`${new Date().getDate() + i} ${month}`}

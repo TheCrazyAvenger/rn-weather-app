@@ -15,7 +15,13 @@ import {WEEK_DAYS} from '../utitlites/data';
 import {updateWeek} from '../utitlites/utilities';
 import {WeekItem} from './WeekItem';
 
-export const WeatherInfo: React.FunctionComponent = () => {
+type WeatherInfoType = {
+  onOpenDay: (dayData: Array<any>) => void;
+};
+
+export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
+  onOpenDay,
+}) => {
   const [week, setWeek] = useState(WEEK_DAYS);
 
   const latitude = useTypedSelector(state => state.weather.latitude);
@@ -53,7 +59,7 @@ export const WeatherInfo: React.FunctionComponent = () => {
         <AppTextBold>Five day forecast</AppTextBold>
       </View>
       {week.map((item, i) => (
-        <WeekItem key={i} item={item} i={i} />
+        <WeekItem onOpenDay={onOpenDay} key={i} item={item} i={i} />
       ))}
       <View style={{...styles.block, marginTop: 5}}>
         <AppTextBold>View on map</AppTextBold>

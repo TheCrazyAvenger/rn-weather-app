@@ -12,6 +12,8 @@ const initialState: IWeatherState = {
   error: null,
   latitude: 0,
   longitude: 0,
+  weekWeather: null,
+  nightWeather: null,
 };
 
 export const weatherReducer = (
@@ -25,6 +27,8 @@ export const weatherReducer = (
         data: action.data,
         latitude: action.latitude,
         longitude: action.longitude,
+        weekWeather: action.weekWeather,
+        nightWeather: action.nightWeather,
       };
     case TOGGLE_LOADING:
       return {

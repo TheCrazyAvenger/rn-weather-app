@@ -20,17 +20,20 @@ export const updateWeek = () => {
 
 export const getMonth = () => MONTH_NAMES[new Date().getMonth()];
 
-export const getWeather = (list: Array<any>, time: number, i?: number) => {
+export const getWeather = (
+  list: Array<any>,
+  value: number,
+  option?: string,
+) => {
   const newList: any = [];
   const days = list;
 
   days.map(item => {
     const date = new Date(item['dt_txt']);
-    const hour = date.getHours();
-    if (hour === time) newList.push(item);
+    const data = option === 'time' ? date.getHours() : date.getDate();
+
+    if (data === value) newList.push(item);
   });
 
-  if (i !== undefined) {
-    return newList[i];
-  }
+  return newList;
 };
