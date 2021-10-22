@@ -1,6 +1,8 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import Icon from 'react-native-vector-icons/Feather';
+import {BookedScreen} from '../screens/BookedScreen';
 import {DayScreen} from '../screens/DayScreen';
 import {MainScreen} from '../screens/MainScreen';
 import {SearchScreen} from '../screens/SearchScreen';
@@ -12,6 +14,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigation: React.FunctionComponent = () => {
   const data = useTypedSelector(state => state.weather.data);
   const cityName = data ? data.city.name : 'Unknown';
+  const navigation: any = useNavigation();
 
   return (
     <Stack.Navigator
@@ -28,6 +31,17 @@ const StackNavigation: React.FunctionComponent = () => {
         component={MainScreen}
         options={{
           title: `${cityName}`,
+
+          headerLeft: () => (
+            <Icon
+              onPress={() =>
+                navigation.navigate('Booked', {data, name: cityName})
+              }
+              name="menu"
+              size={18}
+              color={THEME.COLOR_BLACK}
+            />
+          ),
         }}
       />
       <Stack.Screen
@@ -37,7 +51,26 @@ const StackNavigation: React.FunctionComponent = () => {
           title: 'Details',
         }}
       />
-      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen
+        name="Booked"
+        options={{
+          headerTitleAlign: 'left',
+          headerRight: () => (
+            <Icon
+              onPress={() => navigation.navigate('Search')}
+              name="search"
+              size={18}
+              color={THEME.COLOR_BLACK}
+            />
+          ),
+        }}
+        component={BookedScreen}
+      />
+      <Stack.Screen
+        name="Search"
+        options={{headerTitleAlign: 'left'}}
+        component={SearchScreen}
+      />
     </Stack.Navigator>
   );
 };

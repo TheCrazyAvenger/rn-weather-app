@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   weatherInfo: {
     flexDirection: 'row',
-    width: '25%',
+    width: '20%',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
