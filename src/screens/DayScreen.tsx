@@ -1,24 +1,69 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {AppTextBold} from '../ui/AppTextBold';
+import React, {useMemo} from 'react';
+import {ScrollView} from 'react-native';
+import {APILogo} from '../components/APILogo';
+import {DayInfo} from '../components/DayInfo';
+import {THEME} from '../theme';
 
 type DayScreenType = {
   route: any;
+  data: Array<string>;
 };
 
 export const DayScreen: React.FunctionComponent<DayScreenType> = ({route}) => {
-  console.log(route.params);
+  const {dayData} = route.params;
+
+  const timeData: Array<number> = [];
+  const iconData: Array<string> = [];
+  const tempData: Array<string> = [];
+  const humidityData: Array<string> = [];
+  const pressureData: Array<string> = [];
+  const windData: Array<string> = [];
+  const visibleData: Array<number> = [];
+
+  dayData.map((item: any) => {
+    const time = new Date(item['dt'] * 1000).getHours();
+    const icon = item.weather[0].icon;
+
+    const {visibility} = item;
+    const {humidity, pressure, temp} = item.main;
+    const wind = item.wind.speed;
+
+    timeData.push(time);
+    iconData.push(icon);
+    tempData.push(`${Math.round(temp)}°`);
+    humidityData.push(`${Math.round(humidity)}%`);
+    pressureData.push(`${Math.round(pressure)}hPa`);
+    windData.push(`${Math.round(wind)}m/s`);
+    visibleData.push(visibility);
+  });
+
+  const data = [
+    {title: 'Temperature', data: tempData},
+    {title: 'Humidity', data: humidityData},
+    {title: 'Pressure', data: pressureData},
+    {title: 'Wind', data: windData},
+    {title: 'Visibility', data: visibleData},
+  ];
+
+  const renderData = useMemo(
+    () =>
+      data.map(item => {
+        return (
+          <DayInfo
+            key={item.title}
+            data={item}
+            time={timeData}
+            icons={iconData}
+          />
+        );
+      }),
+    [data],
+  );
+
   return (
-    <View style={styles.center}>
-      <AppTextBold>Day Screen</AppTextBold>
-    </View>
+    <ScrollView style={{backgroundColor: THEME.COLOR_GRAY_LIGHT}}>
+      {renderData}
+      <APILogo />
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

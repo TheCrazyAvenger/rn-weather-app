@@ -29,11 +29,26 @@ export const getWeather = (
   const days = list;
 
   days.map(item => {
-    const date = new Date(item['dt_txt']);
+    const date = new Date(item['dt'] * 1000);
     const data = option === 'time' ? date.getHours() : date.getDate();
 
     if (data === value) newList.push(item);
   });
 
   return newList;
+};
+
+export const lo2t = (lon: number, zoom: number) => {
+  return Math.floor(((lon + 180) / 360) * Math.pow(2, zoom));
+};
+export const la2t = (lat: number, zoom: number) => {
+  return Math.floor(
+    ((1 -
+      Math.log(
+        Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180),
+      ) /
+        Math.PI) /
+      2) *
+      Math.pow(2, zoom),
+  );
 };

@@ -15,7 +15,8 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
   details,
 }) => {
   const weatherItem = ({item}: {item: {[key: string]: any}}) => {
-    const time = new Date(item['dt_txt']).getHours();
+    const time = new Date(item['dt'] * 1000).getHours();
+
     const icon = item.weather[0].icon;
     const temp = item.main.temp;
 
@@ -60,6 +61,7 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
         </View>
       }
       data={list}
+      showsHorizontalScrollIndicator={false}
       horizontal={true}
       renderItem={weatherItem}
     />

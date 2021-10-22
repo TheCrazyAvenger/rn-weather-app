@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  Linking,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Linking, SafeAreaView, StyleSheet, View} from 'react-native';
 import MapView from 'react-native-maps';
 import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppTextBold} from '../ui/AppTextBold';
 import {WEEK_DAYS} from '../utitlites/data';
-import {updateWeek} from '../utitlites/utilities';
+import {la2t, lo2t, updateWeek} from '../utitlites/utilities';
+import {APILogo} from './APILogo';
 import {WeekItem} from './WeekItem';
 
 type WeatherInfoType = {
@@ -24,8 +18,10 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
 }) => {
   const [week, setWeek] = useState(WEEK_DAYS);
 
-  const latitude = useTypedSelector(state => state.weather.latitude);
   const longitude = useTypedSelector(state => state.weather.longitude);
+  const latitude = useTypedSelector(state => state.weather.latitude);
+  let xtile = lo2t(longitude, 2);
+  let ytile = la2t(latitude, 2);
 
   useEffect(() => {
     setWeek(updateWeek());
@@ -35,22 +31,6 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
     Linking.openURL(
       `https://openweathermap.org/weathermap?basemap=map&cities=false&layer=clouds&lat=${latitude}&lon=${longitude}&zoom=10`,
     );
-  };
-
-  const xtile = Math.floor(((longitude + 180) / 360) * Math.pow(2, 10));
-  const ytile = Math.floor(
-    ((1 -
-      Math.log(
-        Math.tan((latitude * Math.PI) / 180) +
-          1 / Math.cos((latitude * Math.PI) / 180),
-      ) /
-        Math.PI) /
-      2) *
-      Math.pow(2, 10),
-  );
-
-  const openSite = () => {
-    Linking.openURL('https://openweathermap.org/');
   };
 
   return (
@@ -73,8 +53,8 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
           initialRegion={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.7,
-            longitudeDelta: 0.7,
+            latitudeDelta: ytile,
+            longitudeDelta: xtile,
           }}
           showsUserLocation={true}
           showsMyLocationButton={false}
@@ -82,23 +62,14 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
         <Image
           style={{position: 'absolute', width: '100%', height: 200}}
           source={{
-            uri: `https://tile.openweathermap.org/map/clouds_new/10/${Math.round(
-              xtile,
-            )}/${Math.round(ytile)}.png?appid=7fb17b0400480080f824b5827af64eca`,
+            uri: `https://tile.openweathermap.org/map/precipitation_new/2/${xtile}/${ytile}.png?appid=7fb17b0400480080f824b5827af64eca`,
           }}
         />
       </View>
       <View style={styles.block}>
         <AppTextBold>Used Api</AppTextBold>
       </View>
-      <View style={{...styles.block, ...styles.usedApi}}>
-        <TouchableOpacity onPress={openSite}>
-          <Image
-            style={styles.logo}
-            source={require('../../assets/OpenWeather-Logo-Light.png')}
-          />
-        </TouchableOpacity>
-      </View>
+      <APILogo />
     </SafeAreaView>
   );
 };

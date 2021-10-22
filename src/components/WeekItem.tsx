@@ -19,7 +19,7 @@ export const WeekItem: React.FunctionComponent<WeekItemType> = ({
 }) => {
   if (i === 5 || i === 6) return null;
 
-  const [month, setMonth] = useState('No data');
+  const [month, setMonth] = useState<string>('No data');
   useEffect(() => {
     setMonth(getMonth());
   }, []);
@@ -27,6 +27,7 @@ export const WeekItem: React.FunctionComponent<WeekItemType> = ({
   const data = useTypedSelector(state => state.weather.data.list);
   const day = useTypedSelector(state => state.weather.weekWeather);
   const night = useTypedSelector(state => state.weather.nightWeather);
+
   const dayData = getWeather(data, new Date().getDate() + i);
 
   const weekendStyle = item.id === 5 || item.id === 6 ? styles.weekend : null;
