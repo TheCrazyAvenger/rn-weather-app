@@ -1,7 +1,17 @@
-import {ErrorMessage, Field, Form, Formik} from 'formik';
-import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/core';
+import React, {useMemo} from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useDispatch} from 'react-redux';
+import {removeBookmark} from '../store/actions/bookmarks';
+import {fetchWeather, toggleLoading} from '../store/actions/weather';
+import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppText} from '../ui/AppText';
 import {AppTextBold} from '../ui/AppTextBold';
@@ -14,14 +24,51 @@ export const BookedScreen: React.FunctionComponent<BackScreenType> = ({
   route,
 }) => {
   const {data, name} = route.params;
-  console.log(data.list);
+
+  const bookmarks = useTypedSelector(state => state.bookmarks.bookmarks);
+
+  const dispatch = useDispatch();
+  const navigation: any = useNavigation();
 
   const now = data.list[0];
   const icon = now.weather[0].icon;
   const {temp} = now.main;
 
+  const showBookmarks = useMemo(() => {
+    if (bookmarks) {
+      return bookmarks.map(item => {
+        return (
+          <TouchableOpacity
+            key={item.id}
+            style={{
+              ...styles.block,
+              ...styles.current,
+            }}
+            onPress={() => {
+              dispatch(toggleLoading());
+              dispatch(fetchWeather(item.lat, item.lon));
+              navigation.navigate('Main');
+            }}
+            activeOpacity={0.7}>
+            <AppTextBold style={styles.cityName}>{item.name}</AppTextBold>
+            <TouchableOpacity activeOpacity={0.7}>
+              <Icon
+                onPress={() => dispatch(removeBookmark(item.name))}
+                name="x"
+                color={THEME.COLOR_WHITE}
+                size={25}
+              />
+            </TouchableOpacity>
+          </TouchableOpacity>
+        );
+      });
+    } else {
+      return null;
+    }
+  }, [bookmarks]);
+
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root}>
       <View style={styles.block}>
         <AppTextBold>Current place</AppTextBold>
       </View>
@@ -44,19 +91,19 @@ export const BookedScreen: React.FunctionComponent<BackScreenType> = ({
       <View style={styles.block}>
         <AppTextBold>Booked</AppTextBold>
       </View>
+      {showBookmarks}
       <View style={{...styles.block, height: '100%'}}>
         <AppText style={{marginBottom: 10}}>
-          You can click{' '}
+          You could click{' '}
           <Icon name="search" size={18} color={THEME.COLOR_BLACK} /> to find a
           city.
         </AppText>
         <AppText>
-          After that use{' '}
-          <Icon name="star" size={18} color={THEME.COLOR_BLACK} /> to add it to
-          bookmarks
+          If you want to add it to bookmarks use{' '}
+          <Icon name="star" size={18} color={THEME.COLOR_BLACK} />.
         </AppText>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -71,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   current: {
-    paddingVertical: 30,
+    paddingVertical: 25,
     backgroundColor: '#00ccff',
     flexDirection: 'row',
     justifyContent: 'space-between',

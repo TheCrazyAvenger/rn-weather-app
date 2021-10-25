@@ -14,6 +14,7 @@ import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
 import {AppTextBold} from '../ui/AppTextBold';
 import Geolocation from '@react-native-community/geolocation';
+import {fetchBooks} from '../store/actions/bookmarks';
 
 type MainScreenType = {
   navigation: any;
@@ -30,7 +31,6 @@ export const MainScreen: React.FunctionComponent<MainScreenType> = ({
     });
   };
 
-  const data = useTypedSelector(state => state.weather.data);
   const loading = useTypedSelector(state => state.weather.loader);
   const error = useTypedSelector(state => state.weather.error);
 
@@ -49,7 +49,11 @@ export const MainScreen: React.FunctionComponent<MainScreenType> = ({
     );
   }, []);
 
-  if (loading && !data) {
+  useEffect(() => {
+    dispatch(fetchBooks());
+  }, []);
+
+  if (loading) {
     return (
       <View style={styles.center}>
         <ActivityIndicator />
