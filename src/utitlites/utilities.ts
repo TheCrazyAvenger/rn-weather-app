@@ -18,7 +18,7 @@ export const updateWeek = () => {
   });
 };
 
-export const getMonth = () => MONTH_NAMES[new Date().getMonth()];
+export const getMonth = (month: number) => MONTH_NAMES[month];
 
 export const getWeather = (
   list: Array<any>,

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Linking, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Image, Linking, SafeAreaView, View} from 'react-native';
 import MapView from 'react-native-maps';
-import {useTypedSelector} from '../store/hooks/useTypedSelector';
-import {THEME} from '../theme';
-import {AppTextBold} from '../ui/AppTextBold';
-import {WEEK_DAYS} from '../utitlites/data';
-import {la2t, lo2t, updateWeek} from '../utitlites/utilities';
-import {APILogo} from './APILogo';
-import {WeekItem} from './WeekItem';
+import {useTypedSelector} from '../../store/hooks/useTypedSelector';
+import {Typography} from '../../ui/Typography';
+import {WEEK_DAYS} from '../../utitlites/data';
+import {la2t, lo2t, updateWeek} from '../../utitlites/utilities';
+import {Components} from '../index';
+import {styles} from './styles';
 
 type WeatherInfoType = {
   onOpenDay: (dayData: Array<any>) => void;
@@ -36,13 +35,13 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.block}>
-        <AppTextBold>Five day forecast</AppTextBold>
+        <Typography.TitleText>Five day forecast</Typography.TitleText>
       </View>
       {week.map((item, i) => (
-        <WeekItem onOpenDay={onOpenDay} key={i} item={item} i={i} />
+        <Components.WeekItem onOpenDay={onOpenDay} key={i} item={item} i={i} />
       ))}
       <View style={{...styles.block, marginTop: 5}}>
-        <AppTextBold>View on map</AppTextBold>
+        <Typography.TitleText>View on map</Typography.TitleText>
       </View>
       <View style={{...styles.block, padding: 0, position: 'relative'}}>
         <MapView
@@ -67,28 +66,9 @@ export const WeatherInfo: React.FunctionComponent<WeatherInfoType> = ({
         />
       </View>
       <View style={styles.block}>
-        <AppTextBold>Used Api</AppTextBold>
+        <Typography.TitleText>Used Api</Typography.TitleText>
       </View>
-      <APILogo />
+      <Components.APILogo />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    backgroundColor: THEME.COLOR_GRAY_LIGHT,
-  },
-  block: {
-    backgroundColor: THEME.COLOR_WHITE,
-    padding: 15,
-    marginBottom: 5,
-  },
-  usedApi: {
-    alignItems: 'center',
-    marginBottom: 0,
-  },
-  logo: {
-    width: 120,
-    height: 50,
-  },
-});

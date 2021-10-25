@@ -1,8 +1,7 @@
 import React from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
-import {THEME} from '../theme';
-import {AppText} from '../ui/AppText';
-import {AppTextBold} from '../ui/AppTextBold';
+import {FlatList, Image, View} from 'react-native';
+import {Typography} from '../../ui/Typography';
+import {styles} from './styles';
 
 type DayInfoType = {
   data: any;
@@ -19,7 +18,9 @@ export const DayInfo: React.FunctionComponent<DayInfoType> = ({
     const align = data.title === 'Temperature' ? 'center' : undefined;
     return (
       <View style={{...styles.weatherItem, alignItems: align}}>
-        <AppText style={{marginBottom: 5}}>{time[index]}:00</AppText>
+        <Typography.Subtitle style={{marginBottom: 5}}>
+          {time[index]}:00
+        </Typography.Subtitle>
         {data.title === 'Temperature' ? (
           <Image
             style={styles.icon}
@@ -29,16 +30,16 @@ export const DayInfo: React.FunctionComponent<DayInfoType> = ({
           />
         ) : null}
 
-        <AppTextBold>{item}</AppTextBold>
+        <Typography.TitleText>{item}</Typography.TitleText>
       </View>
     );
   };
 
   return (
     <View style={styles.block}>
-      <AppTextBold style={{paddingLeft: 19, marginBottom: 15}}>
+      <Typography.TitleText style={{paddingLeft: 19, marginBottom: 15}}>
         {data.title}
-      </AppTextBold>
+      </Typography.TitleText>
       <FlatList
         data={data.data}
         showsHorizontalScrollIndicator={false}
@@ -48,18 +49,3 @@ export const DayInfo: React.FunctionComponent<DayInfoType> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  block: {
-    backgroundColor: THEME.COLOR_WHITE,
-    paddingVertical: 15,
-    marginBottom: 5,
-  },
-  weatherItem: {
-    paddingHorizontal: 19,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-  },
-});

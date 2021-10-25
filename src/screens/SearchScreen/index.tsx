@@ -1,7 +1,7 @@
 import React from 'react';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {useDispatch} from 'react-redux';
-import {fetchWeather, toggleLoading} from '../store/actions/weather';
+import {fetchWeather, toggleLoading} from '../../store/actions/weather';
 import {useNavigation} from '@react-navigation/core';
 
 export const SearchScreen: React.FunctionComponent = () => {

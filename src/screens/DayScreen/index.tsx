@@ -1,8 +1,7 @@
 import React, {useMemo} from 'react';
 import {ScrollView} from 'react-native';
-import {APILogo} from '../components/APILogo';
-import {DayInfo} from '../components/DayInfo';
-import {THEME} from '../theme';
+import {Components} from '../../components';
+import {styles} from './styles';
 
 type DayScreenType = {
   route: any;
@@ -49,7 +48,7 @@ export const DayScreen: React.FunctionComponent<DayScreenType> = ({route}) => {
     () =>
       data.map(item => {
         return (
-          <DayInfo
+          <Components.DayInfo
             key={item.title}
             data={item}
             time={timeData}
@@ -61,9 +60,9 @@ export const DayScreen: React.FunctionComponent<DayScreenType> = ({route}) => {
   );
 
   return (
-    <ScrollView style={{backgroundColor: THEME.COLOR_GRAY_LIGHT}}>
+    <ScrollView style={styles.root}>
       {renderData}
-      <APILogo />
+      <Components.APILogo />
     </ScrollView>
   );
 };

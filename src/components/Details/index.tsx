@@ -1,9 +1,9 @@
 import React from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import {FlatList, Image, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import {THEME} from '../theme';
-import {AppText} from '../ui/AppText';
-import {AppTextBold} from '../ui/AppTextBold';
+import {THEME} from '../../theme';
+import {Typography} from '../../ui/Typography';
+import {styles} from './styles';
 
 type DetailsTypes = {
   list: Array<any>;
@@ -22,12 +22,14 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
 
     return (
       <View style={styles.weatherItem}>
-        <AppText style={styles.text}>{time}:00</AppText>
+        <Typography.Subtitle style={styles.text}>{time}:00</Typography.Subtitle>
         <Image
           style={styles.icon}
           source={{uri: `http://openweathermap.org/img/wn/${icon}.png`}}
         />
-        <AppTextBold style={styles.text}>{Math.round(temp)}°</AppTextBold>
+        <Typography.TitleText style={styles.text}>
+          {Math.round(temp)}°
+        </Typography.TitleText>
       </View>
     );
   };
@@ -45,10 +47,10 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
           size={17}
           color={THEME.COLOR_WHITE}
         />
-        <AppTextBold style={styles.text}>
+        <Typography.TitleText style={styles.text}>
           {Math.round(item.data)}
-          <AppText>{item.type}</AppText>
-        </AppTextBold>
+          <Typography.Subtitle>{item.type}</Typography.Subtitle>
+        </Typography.TitleText>
       </View>
     );
   };
@@ -67,33 +69,3 @@ export const Details: React.FunctionComponent<DetailsTypes> = ({
     />
   );
 };
-const styles = StyleSheet.create({
-  root: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  details: {
-    paddingLeft: 15,
-    marginRight: 20,
-  },
-  detailsItem: {
-    flexDirection: 'row',
-    marginBottom: 9,
-  },
-  weatherItem: {
-    paddingHorizontal: 10,
-    alignItems: 'center',
-  },
-  icon: {
-    width: 40,
-    height: 40,
-  },
-  detailsIcon: {
-    width: 16,
-    height: 16,
-    marginRight: 6,
-  },
-  text: {
-    color: THEME.COLOR_WHITE,
-  },
-});

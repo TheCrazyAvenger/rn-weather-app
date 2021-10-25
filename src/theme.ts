@@ -4,4 +4,5 @@ export const THEME = {
   COLOR_WHITE: 'white',
   COLOR_BLACK: 'black',
   DANGER_COLOR: '#e53935',
+  COLOR_BLUE: '#00ccff',
 };

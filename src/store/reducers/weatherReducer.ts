@@ -16,30 +16,39 @@ const initialState: IWeatherState = {
   nightWeather: null,
 };
 
+const handlers = {
+  [FETCH_WEATHER]: (
+    state: IWeatherState,
+    {data, latitude, longitude, weekWeather, nightWeather}: any,
+  ) => ({
+    ...state,
+    data,
+    latitude,
+    longitude,
+    weekWeather,
+    nightWeather,
+  }),
+  [TOGGLE_LOADING]: (state: IWeatherState) => ({
+    ...state,
+    loader: !state.loader,
+  }),
+  [SHOW_ERROR]: (state: any, {error}: {error: string}) => ({
+    ...state,
+    error,
+  }),
+  [CLEAR_ERROR]: (state: IWeatherState) => ({
+    ...state,
+    error: null,
+  }),
+
+  DEFAULT: (state: IWeatherState) => state,
+};
+
 export const weatherReducer = (
   state = initialState,
   action: WeatherAction,
 ): IWeatherState => {
-  switch (action.type) {
-    case FETCH_WEATHER:
-      return {
-        ...state,
-        data: action.data,
-        latitude: action.latitude,
-        longitude: action.longitude,
-        weekWeather: action.weekWeather,
-        nightWeather: action.nightWeather,
-      };
-    case TOGGLE_LOADING:
-      return {
-        ...state,
-        loader: !state.loader,
-      };
-    case SHOW_ERROR:
-      return {...state, error: action.error};
-    case CLEAR_ERROR:
-      return {...state, error: null};
-    default:
-      return state;
-  }
+  const handler = handlers[action.type] || handlers.DEFAULT;
+
+  return handler(state, action);
 };

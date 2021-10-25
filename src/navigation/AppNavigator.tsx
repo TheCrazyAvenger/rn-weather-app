@@ -1,16 +1,13 @@
+import React from 'react';
+import {useDispatch} from 'react-redux';
+import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import {useDispatch} from 'react-redux';
-import {BookedScreen} from '../screens/BookedScreen';
-import {DayScreen} from '../screens/DayScreen';
-import {MainScreen} from '../screens/MainScreen';
-import {SearchScreen} from '../screens/SearchScreen';
+import {Screens} from '../screens';
 import {addBookmarks, removeBookmark} from '../store/actions/bookmarks';
-import {useTypedSelector} from '../store/hooks/useTypedSelector';
 import {THEME} from '../theme';
+import Icon from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +32,7 @@ const StackNavigation: React.FunctionComponent = () => {
       }}>
       <Stack.Screen
         name="Main"
-        component={MainScreen}
+        component={Screens.MainScreen}
         options={{
           title: `${cityName}`,
 
@@ -90,7 +87,7 @@ const StackNavigation: React.FunctionComponent = () => {
       />
       <Stack.Screen
         name="Day"
-        component={DayScreen}
+        component={Screens.DayScreen}
         options={{
           title: 'Details',
         }}
@@ -108,12 +105,12 @@ const StackNavigation: React.FunctionComponent = () => {
             />
           ),
         }}
-        component={BookedScreen}
+        component={Screens.BookedScreen}
       />
       <Stack.Screen
         name="Search"
         options={{headerTitleAlign: 'left'}}
-        component={SearchScreen}
+        component={Screens.SearchScreen}
       />
     </Stack.Navigator>
   );

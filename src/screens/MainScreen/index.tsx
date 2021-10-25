@@ -1,20 +1,13 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ActivityIndicator,
-  Button,
-} from 'react-native';
+import {View, ScrollView, ActivityIndicator, Button} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {WeatherHeader} from '../components/WeatherHeader';
-import {WeatherInfo} from '../components/WeatherInfo';
-import {fetchWeather, toggleLoading} from '../store/actions/weather';
-import {useTypedSelector} from '../store/hooks/useTypedSelector';
-import {THEME} from '../theme';
-import {AppTextBold} from '../ui/AppTextBold';
+import {fetchWeather, toggleLoading} from '../../store/actions/weather';
+import {useTypedSelector} from '../../store/hooks/useTypedSelector';
+import {Typography} from '../../ui/Typography';
 import Geolocation from '@react-native-community/geolocation';
-import {fetchBooks} from '../store/actions/bookmarks';
+import {fetchBooks} from '../../store/actions/bookmarks';
+import {Components} from '../../components';
+import {styles} from './styles';
 
 type MainScreenType = {
   navigation: any;
@@ -64,7 +57,9 @@ export const MainScreen: React.FunctionComponent<MainScreenType> = ({
   if (error) {
     return (
       <View style={styles.center}>
-        <AppTextBold style={styles.error}>{error}</AppTextBold>
+        <Typography.TitleText style={styles.error}>
+          {error}
+        </Typography.TitleText>
         <Button
           title="Повторить"
           onPress={() => {
@@ -79,26 +74,9 @@ export const MainScreen: React.FunctionComponent<MainScreenType> = ({
   return (
     <View style={styles.root}>
       <ScrollView>
-        <WeatherHeader />
-        <WeatherInfo onOpenDay={onOpenDay} />
+        <Components.WeatherHeader />
+        <Components.WeatherInfo onOpenDay={onOpenDay} />
       </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: THEME.COLOR_GRAY_LIGHT,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  error: {
-    fontSize: 20,
-    color: THEME.DANGER_COLOR,
-    marginBottom: 10,
-  },
-});
